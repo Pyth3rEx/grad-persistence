@@ -11,12 +11,13 @@ private _fnc_onDisconnect = {
         _savePlayerDamage = ([missionConfigFile >> "CfgGradPersistence", "savePlayerDamage", 0] call BIS_fnc_returnConfigEntry) == 1;
         _savePlayerPosition = ([missionConfigFile >> "CfgGradPersistence", "savePlayerPosition", 0] call BIS_fnc_returnConfigEntry) == 1;
         _savePlayerMoney = ([missionConfigFile >> "CfgGradPersistence", "savePlayerMoney", 0] call BIS_fnc_returnConfigEntry) == 1;
+        _savePlayerFood = ([missionConfigFile >> "CfgGradPersistence", "savePlayerFood", 0] call BIS_fnc_returnConfigEntry) == 1; // Check if player save ACEX food
 
-        if (!_savePlayerMoney && {!_savePlayerDamage} && {!_savePlayerPosition} && {!_savePlayerMoney}) exitWith {false};
+        if (!_savePlayerMoney && {!_savePlayerDamage} && {!_savePlayerPosition} && {!_savePlayerMoney} && {!_savePlayerFood}) exitWith {false}; // If none present skip this script part
 
         if !(missionNamespace getVariable [QGVAR(thisMissionCleared),false]) then {
             INFO_1("Player %1 disconnected. Saving data.", _name);
-            [_unit,true,_savePlayerInventory,_savePlayerDamage,_savePlayerPosition,_savePlayerMoney,_uid] call grad_persistence_fnc_savePlayer;
+            [_unit,true,_savePlayerInventory,_savePlayerDamage,_savePlayerPosition,_savePlayerMoney,_savePlayerFood,_uid] call grad_persistence_fnc_savePlayer;
         };
 
         [{

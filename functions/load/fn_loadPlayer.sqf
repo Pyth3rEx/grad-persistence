@@ -17,6 +17,7 @@ private _fnc_waitUntil = {
         ["_savePlayerDamage",([missionConfigFile >> "CfgGradPersistence", "savePlayerDamage", 0] call BIS_fnc_returnConfigEntry) == 1],
         ["_savePlayerPosition",([missionConfigFile >> "CfgGradPersistence", "savePlayerPosition", 0] call BIS_fnc_returnConfigEntry) == 1],
         ["_savePlayerMoney",([missionConfigFile >> "CfgGradPersistence", "savePlayerMoney", 1] call BIS_fnc_returnConfigEntry) == 1]
+        ["_savePlayerFood",([missionConfigFile >> "CfgGradPersistence", "savePlayerFood", 1] call BIS_fnc_returnConfigEntry) == 1]
     ];
 
     private _missionTag = [] call FUNC(getMissionTag);
@@ -67,6 +68,16 @@ private _fnc_waitUntil = {
             _unit setVariable ["grad_moneymenu_myBankBalance",_unitBankMoney,true];
         };
     };
+
+    // Load ACEX food levels
+    if (_savePlayerFood) then {
+        private _unitHunger = [_unitDataHash,"hunger"] call CBA_fnc_hashGet;
+        private _unitThrist = [_unitDataHash,"thrist"] call CBA_fnc_hashGet;
+        // MIGHT NEED TO DO SOMETHING WITH THIS
+        // if !(_unitFood isEqualType false) then {
+        //     _unit setVariable [""]
+        // }
+    }
 
     private _vars = [_unitDataHash,"vars"] call CBA_fnc_hashGet;
     [_vars,_unit] call FUNC(loadObjectVars);

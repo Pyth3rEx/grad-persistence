@@ -7,6 +7,7 @@ params [
     ["_savePlayerDamage",([missionConfigFile >> "CfgGradPersistence", "savePlayerDamage", 0] call BIS_fnc_returnConfigEntry) == 1],
     ["_savePlayerPosition",([missionConfigFile >> "CfgGradPersistence", "savePlayerPosition", 0] call BIS_fnc_returnConfigEntry) == 1],
     ["_savePlayerMoney",([missionConfigFile >> "CfgGradPersistence", "savePlayerMoney", 0] call BIS_fnc_returnConfigEntry) == 1],
+    ["_savePlayerFood",([missionConfigFile >> "CfgGradPersistence", "savePlayerFood", 0] call BIS_fnc_returnConfigEntry) == 1], // Check id player save ACEX food
     "_uid",
     "_allPlayerVariableClasses"
 ];
@@ -56,6 +57,12 @@ if (_savePlayerMoney) then {
     [_unitDataHash,"money",_unit getVariable ["grad_lbm_myFunds",0]] call CBA_fnc_hashSet;
     [_unitDataHash,"bankMoney",_unit getVariable ["grad_moneymenu_myBankBalance",0]] call CBA_fnc_hashSet;
 };
+
+// Save ACEX food levels
+if (_savePlayerFood) then {
+    [_unitDataHash,"hunger",_unit getVariable ["acex_field_rations_hunger",0]] call CBA_fnc_hashSet;
+    [_unitDataHash,"thrist",_unit getVariable ["acex_field_rations_thrist",0]] call CBA_fnc_hashSet;
+}
 
 private _thisUnitVars = [_allPlayerVariableClasses,_unit] call FUNC(saveObjectVars);
 [_unitDataHash,"vars",_thisUnitVars] call CBA_fnc_hashSet;
